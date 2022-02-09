@@ -7,6 +7,8 @@
 }
 
 .chat__sidebar {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-width: 320px;
   border-right: 1px solid rgba(255, 255, 255, 0.3);
@@ -20,28 +22,61 @@
 
 .sidebar__header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1rem;
 }
 
 .sidebar__title {
   font-weight: 400;
   font-size: 2.5rem;
-  margin: 1rem;
   background-image: linear-gradient(0deg, rgba(167, 22, 168, 1) 0%, rgba(223, 20, 224, 1) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  margin: 0;
 }
 
 .sidebar__chats {
-  height: 100%;
+  flex: 1 1 1px;
+  overflow-y: auto;
 }
 
 .chat-card {
-  height: 50px;
   width: 100%;
+  padding: 1rem;
+  height: 5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0 1rem;
 }
 
-.chat-card p {
+.chat-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.chat-card__avatar {
+  height: 3.5rem;
+  flex: 0 0 3.5rem;
+  border-radius: 100%;
+  background-color: #ff3cac;
+  background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+}
+
+.chat-card__info {
+  overflow: hidden;
+}
+
+.chat-card__username {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.chat-card__lastmsg {
+  font-size: 0.9rem;
   white-space: nowrap;
+  margin: 0;
+  padding: 0;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
