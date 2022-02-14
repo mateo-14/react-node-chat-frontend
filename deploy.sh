@@ -16,10 +16,7 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# if you are deploying to https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
-
-# if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:mateo-14/react-node-chat-frontend.git main:gh-pages
+git remote add origin https://github.com/mateo-14/react-node-chat-frontend.git
+git push -f origin master:gh-pages
 
 cd -
