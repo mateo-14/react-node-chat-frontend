@@ -1,0 +1,33 @@
+.user-card {
+  width: 100%;
+  padding: 1rem;
+  height: 5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0 1rem;
+}
+
+.user-card:hover,
+.user-card.selected {
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.user-card__info {
+  overflow: hidden;
+}
+
+.user-card__username {
+  font-weight: 500;
+}
+
+.user-card__lastmsg {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.5);
+}

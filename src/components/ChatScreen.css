@@ -1,15 +1,52 @@
-:root {
-  --border-color: rgba(255, 255, 255, 0.3);
+.animating-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: black;
 }
+
+.hello-text {
+  font-size: 3rem;
+  opacity: 0;
+}
+
+.appear-active .hello-text  {
+  opacity: 1;
+  transition: opacity 1.5s;
+}
+
+.exit .hello-text, .enter-done .hello-text {
+  opacity: 1;
+}
+
+.exit-active .hello-text {
+  opacity: 0;
+  transition: opacity 1.5s;
+}
+
+.animating-screen.exit-active {
+  opacity: 0;
+  transition: opacity 1s linear 1.5s;
+}
+
+.animating-screen.exit-done {
+  opacity: 0;
+}
+
 .chat {
   min-height: 500px;
   height: 100vh;
   overflow-y: hidden;
   display: flex;
-  color: white;
 }
 
 .chat__sidebar {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -41,79 +78,20 @@
   overflow-y: auto;
 }
 
-.chat-card {
-  width: 100%;
-  padding: 1rem;
-  height: 5rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 0 1rem;
-}
-
-.chat-card:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.chat-card__avatar {
-  height: 3rem;
-  flex: 0 0 3rem;
-  border-radius: 100%;
-  background-color: #ff3cac;
-  background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
-}
-
-.chat-card__info {
-  overflow: hidden;
-}
-
-.chat-card__username {
-  font-weight: 500;
-  font-size: 1.1rem;
-}
-
-.chat-card__lastmsg {
-  font-size: 0.9rem;
-  white-space: nowrap;
-  margin: 0;
-  padding: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.new-chat__btn {
-  height: 2.4rem;
-  width: 2.4rem;
-  outline: 0;
-  border: 0;
-  background-color: #784ba0;
-  background-image: linear-gradient(0deg, #a716a8 0%, #df14e0 100%);
-  border-radius: 100%;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 0 25px #784ba0;
-  transition: all 0.2s;
-}
-
-.new-chat__btn:active {
-  transform: scale(0.95);
-}
-
-.new-chat__btn svg {
-  height: 80%;
-}
-
-.selected-chat {
+.chat__main {
   display: flex;
   flex-direction: column;
   flex: 4;
   height: auto;
   min-width: 500px;
+}
+
+.chat__info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  height: 100%;
 }
 
 .selected-chat__main {
@@ -140,23 +118,6 @@
   font-size: 1rem;
 }
 
-.selected-chat__send-btn {
-  border: 0;
-  border-radius: 0.1rem;
-  font-size: 1rem;
-  padding: 0.4rem 1rem;
-  cursor: pointer;
-  color: white;
-  background: #a716a8;
-  font-weight: 500;
-  box-shadow: 0 0 25px #784ba0;
-  transition: background 0.2s;
-}
-
-.selected-chat__send-btn:hover {
-  background: #be19be;
-}
-
 .selected-chat__header {
   height: 5.5rem;
   border-bottom: 1px solid var(--border-color);
@@ -168,31 +129,73 @@
 
 .selected-chat__messages {
   flex: 1 1 1px;
-  padding: 0 3rem;
+  padding: 1rem 3rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
-.message {
-  padding: 0.3rem 0.6rem;
-  font-size: 0.9rem;
-  margin: 0.8rem 0;
-  border-radius: 0.3rem;
-  margin-right: auto;
-  background: #784ba0;
+.selected-chat__info {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.selected-chat_username {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.selected-chat__status{
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6)
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  margin: 0.8rem 0;
+  align-items: flex-start;
+  white-space: pre-line;
 }
 
 .message.self {
-  background-color: #a716a8;
-  margin-left: auto;
-  margin-right: 0;
+  align-items: flex-end;
 }
 
-.message__text {
+.message__bubble {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
+  border-radius: 0.3rem;
+  background: #784ba0;
+  display: flex;
+  gap: 0.5rem;
 
+}
+
+.message__bubble-text {
+  word-break: break-all;
+}
+
+.self .message__bubble {
+  background: #a716a8;
+}
+
+.message__bubble.pending,
+.message__bubble.error {
+  opacity: 0.6;
+}
+
+.message__retry-btn {
+  margin-top: 6px;
+  background: 0;
+  outline: 0;
+  border: 0;
+  color: #c93333;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 500;
 }
 
 .message__date {
@@ -200,4 +203,5 @@
   align-self: flex-end;
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
 }

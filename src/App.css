@@ -1,0 +1,32 @@
+.avatar {
+  height: 3rem;
+  flex: 0 0 3rem;
+  border-radius: 100%;
+  background-color: #ff3cac;
+  background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+}
+
+.icon-btn {
+  height: 2.4rem;
+  width: 2.4rem;
+  outline: 0;
+  border: 0;
+  background-color: #df14e0;
+  background-image: linear-gradient(0deg, #a716a8 0%, #df14e0 100%);
+  border-radius: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 25px #784ba0;
+  transition: transform 0.2s;
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.icon-btn svg {
+  height: 80%;
+}

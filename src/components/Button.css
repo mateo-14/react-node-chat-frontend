@@ -1,0 +1,38 @@
+.button {
+  border: 0;
+  border-radius: 0.1rem;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.button:active {
+  transform: scale(0.96);
+}
+
+.button.primary {
+  background: #a716a8;
+  box-shadow: 0 0 25px #b919b9;
+}
+
+.button.primary:hover:not(:disabled) {
+  background: #b919b9;
+}
+
+.button.secondary {
+  background: #4a7cc7;
+  box-shadow: 0 0 25px #558cdf;
+}
+
+.button.secondary:hover {
+  background: #558cdf;
+}
+
+.button:disabled {
+  cursor: initial;
+  opacity: 0.7;
+  box-shadow: none;
+}

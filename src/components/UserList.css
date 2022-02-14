@@ -1,0 +1,46 @@
+.users-list {
+  left: -100%;
+  top: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  max-width: 480px;
+  background: black;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.users-list.appear-active {
+  left: 1px;
+  transition: left 0.3s;
+}
+
+.users-list.enter-done,
+.users-list.exit {
+  left: 1px;
+}
+
+.users-list.exit-active {
+  left: -100%;
+  transition: left 0.3s ease-in;
+}
+
+.users-list__header {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5.5rem;
+}
+
+.users-list__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 1.8rem;
+}
+
+.users-list__list {
+  overflow-y: auto;
+}

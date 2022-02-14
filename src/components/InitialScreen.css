@@ -1,13 +1,13 @@
 .initial-screen {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .username-input {
   border: 0;
-  /* padding: 1rem; */
   font-size: 3.5rem;
   background: 0;
   color: rgba(255, 255, 255, 0.9);
@@ -20,16 +20,49 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-.help-text {
+.info-text {
   color: rgba(255, 255, 255, 0.5);
   font-weight: 600;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin: 0;
   margin-top: 1rem;
-  transition: all 0.2s;
+  transition: opacity 0.5s;
 }
 
-.help-text.hidden {
+.info-text.hidden {
   opacity: 0;
+}
+
+.info-text.loading {
+  animation: infotext 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes infotext {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.username-input.transition {
+  transition: opacity 1s;
+  opacity: 0;
+}
+
+.info-text.loading.transition {
+  animation: hidden 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes hidden {
+  to {
+    opacity: 0;
+  }
 }

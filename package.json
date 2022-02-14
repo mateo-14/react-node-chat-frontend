@@ -8,13 +8,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.7.2",
+    "classnames": "^2.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-textarea-autosize": "^8.3.3"
+    "react-redux": "^7.2.6",
+    "react-textarea-autosize": "^8.3.3",
+    "react-transition-group": "^4.4.2",
+    "swr": "^1.2.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/react-transition-group": "^4.4.4",
     "@vitejs/plugin-react": "^1.0.7",
     "typescript": "^4.5.4",
     "vite": "^2.8.0"
