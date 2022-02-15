@@ -72,9 +72,10 @@ export class ChatWebSockets {
     };
   }
 
-  #ping() { // Avoid heroku timeout
+  #ping() {
+    // Avoid heroku timeout
     setTimeout(() => {
-      if (this.#ws?.readyState === WebSocket.OPEN) this.#ws?.send('ping');
+      if (this.#ws?.readyState === WebSocket.OPEN) this.#ws?.send(JSON.stringify({ type: 'ping' }));
     }, 30000);
   }
 
