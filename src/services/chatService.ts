@@ -16,7 +16,11 @@ type UserDisconnectMsg = {
   payload: { user: string };
 };
 
-type WebSocketMessage = AuthMsg | NewMessageMsg | UserDisconnectMsg;
+type PingMsg = {
+  type: 'pong';
+};
+
+type WebSocketMessage = AuthMsg | NewMessageMsg | UserDisconnectMsg | PingMsg;
 
 type WebSocketSubscriber = (msg: WebSocketMessage) => void;
 
@@ -53,13 +57,30 @@ export class ChatWebSockets {
     this.#ws.onmessage = (e) => {
       try {
         const data: WebSocketMessage = JSON.parse(e.data);
-        if (data.type == 'auth') {
+        if (data.type === 'auth') {
           console.log('Authenticated successful', data.payload.authenticated);
           this.#isTokenValid = data.payload.authenticated;
+          this.#ping();
         }
+
+        if (data.type === 'pong') {
+          this.#ping();
+        }
+
         this.#subscribers.forEach((subscriber) => subscriber(data));
       } catch {}
     };
+  }
+
+  #ping() { // Avoid heroku timeout
+    setTimeout(() => {
+      if (this.#ws?.readyState === WebSocket.OPEN) this.#ws?.send('ping');
+    }, 30000);
+  }
+
+  #auth() {
+    if (this.#ws?.readyState === WebSocket.OPEN)
+      this.#ws.send(JSON.stringify({ type: 'auth', payload: this.#token }));
   }
 
   subscribe(subscriber: WebSocketSubscriber) {
@@ -68,15 +89,6 @@ export class ChatWebSockets {
 
   unsubscribe(subscriber: WebSocketSubscriber) {
     this.#subscribers.delete(subscriber);
-  }
-
-  #auth() {
-    if (this.#ws?.readyState === WebSocket.OPEN)
-      this.#ws.send(JSON.stringify({ type: 'auth', payload: this.#token }));
-  }
-
-  get state(): number {
-    return this.#ws?.readyState || 0;
   }
 
   close() {
