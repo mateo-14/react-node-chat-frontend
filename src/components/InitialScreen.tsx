@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { useAppDispatch } from '../hooks/redux';
 import { authWithUsername } from '../slices/authSlice';
 import classNames from 'classnames';
 import './InitialScreen.css';

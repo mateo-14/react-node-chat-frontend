@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../hooks/redux';
-import { getUsers } from '../services/chatService';
 import { CSSTransition } from 'react-transition-group';
-import useSWR from 'swr';
 import UserCard from './UserCard';
 import './UserList.css';
 
@@ -12,13 +10,9 @@ type UserListProps = {
 };
 
 export default function UserList({ onAdd, onClose }: UserListProps) {
-  const token = useAppSelector((state) => state.auth.token);
   const [inProp, setInProp] = useState(true);
   const ref = useRef(null);
-
-  const { data: users } = useSWR(token ? ['users/online', token] : null, (_, token) =>
-    getUsers(token)
-  );
+  const users = useAppSelector((state) => state.users);
 
   const handleClose = () => {
     setInProp(false);
@@ -34,12 +28,7 @@ export default function UserList({ onAdd, onClose }: UserListProps) {
       <div className="users-list" ref={ref}>
         <div className="users-list__header">
           <h2 className="users-list__title">Online users</h2>
-          <button
-            className="icon-btn"
-            aria-label="Close"
-            title="Close"
-            onClick={handleClose}
-          >
+          <button className="icon-btn" aria-label="Close" title="Close" onClick={handleClose}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

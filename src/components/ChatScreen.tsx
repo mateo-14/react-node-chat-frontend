@@ -3,12 +3,12 @@ import TextareaAutosize from 'react-textarea-autosize';
 import React, { useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import Button from './Button';
-import { createChat, deleteChat, sendMessage, setChatDraftMessage } from '../slices/chatSlice';
+import { createChat, deleteChat, sendMessage, setChatDraftMessage } from '../slices/chatsSlice';
 import classNames from 'classnames';
 import UserList from './UserList';
 import UserCard from './UserCard';
 import { CSSTransition } from 'react-transition-group';
-import { Chat } from '../slices/chatSlice';
+import { Chat } from '../slices/chatsSlice';
 
 function ChatScreen() {
   const username = useAppSelector((state) => state.auth.username);
@@ -37,7 +37,7 @@ function MainChat() {
   const [username, tag] = (useAppSelector((state) => state.auth.username) || '').split('#');
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [isUserListShowing, setIsUserListShowing] = useState<boolean>(false);
-  const chats = useAppSelector((state) => state.chat.chats);
+  const chats = useAppSelector((state) => state.chats);
   const selectedChat = chats.find((chat) => chat.user === selectedUser);
 
   const handleUserSelect = (user: string) => {
@@ -45,9 +45,12 @@ function MainChat() {
   };
 
   const handleAddUser = (user: string) => {
+    if (user === selectedChat?.user) return;
     if (selectedChat && !selectedChat.messages.length) dispatch(deleteChat(selectedChat.user));
+    
+    if (!chats.some(chat => chat.user === user)) 
+      dispatch(createChat(user));
 
-    dispatch(createChat(user));
     setSelectedUser(user);
   };
 
@@ -124,6 +127,7 @@ type SelectedChatProps = {
 function SelectedChat({ selectedChat }: SelectedChatProps) {
   const dispatch = useAppDispatch();
   const loggedUser = useAppSelector((state) => state.auth.username);
+  const online = useAppSelector((state) => state.users).some((user) => user === selectedChat.user);
   const messages = selectedChat?.messages;
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -167,9 +171,7 @@ function SelectedChat({ selectedChat }: SelectedChatProps) {
           <div className="avatar"></div>
           <div className="selected-chat__info">
             <span className="selected-chat_username">{selectedChat.user}</span>
-            <span className="selected-chat__status">
-              {selectedChat.online ? 'Online' : 'Offline'}
-            </span>
+            <span className="selected-chat__status">{online ? 'Online' : 'Offline'}</span>
           </div>
         </div>
         <div className="selected-chat__messages">
@@ -215,10 +217,10 @@ function SelectedChat({ selectedChat }: SelectedChatProps) {
           maxRows={4}
           onChange={handleChange}
           value={selectedChat.draftMessage}
-          disabled={!selectedChat.online}
+          disabled={!online}
           onKeyPress={handleKeyPress}
         ></TextareaAutosize>
-        <Button disabled={!selectedChat.online}>Send</Button>
+        <Button disabled={!online}>Send</Button>
       </form>
     </>
   );

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { auth } from '../services/authService';
+import { auth } from '../services/httpService';
 
 interface AuthState {
   token: string | null;
