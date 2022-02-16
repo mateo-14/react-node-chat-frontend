@@ -40,22 +40,27 @@ export class ChatWebSockets {
     this.#subscribers = new Set();
   }
 
+  #reconect() {
+    console.log('Trying reconnect in 5 seconds...');
+    setTimeout(this.#connect.bind(this), 5000);
+  }
+
   #connect() {
-    console.log('Connecting to socket');
+    if (!navigator.onLine) {
+      this.#reconect();
+      return;
+    }
+
     this.#ws = new WebSocket(import.meta.env.VITE_WS_URL);
     this.#ws.onopen = () => {
       console.log('On socket open');
       this.#auth();
     };
 
-    this.#ws.onclose = () => {
-      if ((this.#isTokenValid || this.#isTokenValid === undefined) && this.#token) {
-        setTimeout(this.#connect.bind(this), 2000);
-      }
-    };
+    this.#ws.onclose = (e) => {
+      if (e.code === 1000) return;
 
-    this.#ws.onerror = () => {
-      this.#ws?.close();
+      if (this.#isTokenValid || this.#isTokenValid === undefined) this.#reconect();
     };
 
     this.#ws.onmessage = (e) => {
